@@ -41,8 +41,17 @@ class Home extends Component {
 //     });
 //   };
 loadRes = URL => {
-  API.getArticles(URL).then(res => this.setState({articles: res.data})).catch((err => console.log(err)));
+  API.getArticles(URL).then(res => {
+    console.log(res.data);
+    this.setState({articles: res.data})}).catch((err => console.log(err)));
 }
+handleInputChange = event => {
+  const { name, value } = event.target;
+  this.setState({
+    [name]: value
+  });
+};
+
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title) {
@@ -52,21 +61,24 @@ loadRes = URL => {
         queryURL += "?api-key=96a79146affc4bf0ba7a2dc151799e38";
       
         // grab text the user typed into the search input, add as parameter to url
-        let searchTerm = this.state.title.val().trim();
+        let searchTerm = this.state.title;
         const searchList = searchTerm.split(" ").join("+");
         queryURL += "&q=" + searchList;
       
         // if the user provides a startYear, include it in the queryURL
-        const startYear = this.state.startYear.val().trim();
+        console.log("start year type", typeof(this.state.yearStart));
+       if(parseInt(this.state.yearStart)){
+        const startYear = this.state.yearStart;
       
-        if (parseInt(startYear)) {
+        
           queryURL += "&begin_date=" + startYear + "0101";
-        }
-      
+       }
+        
+      if(parseInt(this.state.yearEnd)){
         // if the user provides an endYear, include it in the queryURL
-        var endYear = this.state.endYear.val().trim();
+        const endYear = this.state.yearEnd;
       
-        if (parseInt(endYear)) {
+        
           queryURL += "&end_date=" + endYear + "0101";
         }
       
@@ -89,20 +101,20 @@ loadRes = URL => {
 			  <form>
               <Input
                 value={this.state.title}
-                // onChange={this.handleInputChange}
+                onChange={this.handleInputChange}
                 name="title"
                 placeholder="Title (required)"
               />
               <Input
                 value={this.state.yearStart}
-                // onChange={this.handleInputChange}
-                name="year_start"
+                onChange={this.handleInputChange}
+                name="yearStart"
                 placeholder="Year Start"
               />
               <Input
                 value={this.state.yearEnd}
-                // onChange={this.handleInputChange}
-                name="year_end"
+                onChange={this.handleInputChange}
+                name="yearEnd"
                 placeholder="Year End"
               />
 			 
