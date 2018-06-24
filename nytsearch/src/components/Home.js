@@ -42,8 +42,8 @@ class Home extends Component {
 //   };
 loadRes = URL => {
   API.getArticles(URL).then(res => {
-    console.log(res.data);
-    this.setState({articles: res.data})}).catch((err => console.log(err)));
+    console.log(res.data.response.docs);
+    this.setState({articles: res.data.response.docs})}).catch((err => console.log(err)));
 }
 handleInputChange = event => {
   const { name, value } = event.target;
@@ -132,22 +132,22 @@ handleInputChange = event => {
             <Jumbotron>
               <h1>Articles on My List</h1>
             </Jumbotron>
-            {/* {this.state.books.length ? (
+            {this.state.articles.length ? (
               <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
+                {this.state.articles.map(article => (
+                  <ListItem key={article._id} >
+                    <Link to={article.web_url}>
                       <strong>
-                        {book.title} by {book.author}
+                        {article.headline.main}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                    {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
                   </ListItem>
                 ))}
               </List>
             ) : (
               <h3>No Results to Display</h3>
-            )} */}
+            )}
           </Col>
         </Row>
       </Container>
