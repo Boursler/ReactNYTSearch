@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "./Grid";
 import { List, ListItem } from "./List";
 import { Input, TextArea, FormBtn } from "./Form";
+import Moment from "moment";
 
 class Home extends Component {
   state = {
@@ -136,6 +137,8 @@ handleInputChange = event => {
               <List>
                 {this.state.articles.map(article => (
                   <ListItem key={article._id} >
+                 {article.pub_date ? (<p>Publication Date: {Moment(article.pub_date).format('MMM Do YY')}</p>) :
+                 (<p></p>)}
                     <a href={article.web_url} target="_blank">
                       <strong>
                         {article.headline.main}
