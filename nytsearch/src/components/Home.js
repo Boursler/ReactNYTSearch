@@ -130,17 +130,17 @@ handleInputChange = event => {
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>Articles on My List</h1>
+              <h1>Searched Articles</h1>
             </Jumbotron>
             {this.state.articles.length ? (
               <List>
                 {this.state.articles.map(article => (
                   <ListItem key={article._id} >
-                    <Link to={article.web_url}>
+                    <a href={article.web_url} target="_blank">
                       <strong>
                         {article.headline.main}
                       </strong>
-                    </Link>
+                    </a>
                     {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
                   </ListItem>
                 ))}
