@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import DeleteBtn from "./DeleteBtn";
+
 import Jumbotron from "./Jumbotron";
 import API from "../utils/Api";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "./Grid";
 import { List, ListItem } from "./List";
-import { Input, TextArea, FormBtn } from "./Form";
+import { Input, FormBtn } from "./Form";
 import Moment from "moment";
+import Saved from "./Saved";
 
 class Home extends Component {
   state = {
@@ -14,21 +15,13 @@ class Home extends Component {
     title: "",
     yearStart: "",
     yearEnd: "",
-    url: ""
+    url: "",
+    savedArticles: []
   };
 
-//   componentDidMount() {
-//     this.loadBooks();
-//   }
-
-
-
-//   deleteBook = id => {
-//     API.deleteBook(id)
-//       .then(res => this.loadBooks())
-//       .catch(err => console.log(err));
-//   };
-
+  componentDidMount() {
+    this.loadSaved();
+  }
 
 loadRes = URL => {
   API.getArticles(URL).then(res => {
@@ -45,6 +38,10 @@ saveArticle = (headline, url, pub_date) => {
   else {
     API.save({headline: headline, url: url}).then(res=> this.loadSaved()).catch(err => console.log(err));
   }
+
+}
+loadSaved(){
+  API.getSaved().then(response => this.setState({savedArticles: response})).catch((err => console.log(err)));
 
 }
 handleInputChange = event => {
@@ -157,6 +154,31 @@ handleInputChange = event => {
             )}
           </Col>
         </Row>
+        <h2>Saved Articles</h2>
+{(this.state.savedArticles.length) ? (
+  <Row>
+    
+  <List>
+    {this.state.savedArticles.map(savedArticle => (
+      <ListItem key = {savedArticle._id} >
+      {(savedArticle.pub_date) ? (<Saved 
+        id= {savedArticle._id}
+        title={savedArticle.title}
+        url={savedArticle.url}
+        date={savedArticle.pub_date}
+
+      />) : (<Saved id={savedArticle._id}
+          title={savedArticle.title}
+          url={savedArticle.url}
+          date={""}
+        />)}
+      
+      </ListItem>
+    ))}
+    </List>
+   
+    </Row>
+) : (<h3>No Saved Articles</h3>)}
       </Container>
     );
   }

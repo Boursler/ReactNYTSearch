@@ -5,7 +5,10 @@ export default{
 		return axios.get(queryURL);
 	},
 	save: function(articleData){
-		return axios.post("/api/saved", articleData)
+		return axios.post("/api/articles", articleData)
+	}, 
+	delete: function(id){
+		return axios.delete("/api/articles", id);
 	}
 
 
