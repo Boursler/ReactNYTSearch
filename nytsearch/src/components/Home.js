@@ -21,13 +21,7 @@ class Home extends Component {
 //     this.loadBooks();
 //   }
 
-//   loadBooks = () => {
-//     API.getBooks()
-//       .then(res =>
-//         this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-//       )
-//       .catch(err => console.log(err));
-//   };
+
 
 //   deleteBook = id => {
 //     API.deleteBook(id)
@@ -35,16 +29,23 @@ class Home extends Component {
 //       .catch(err => console.log(err));
 //   };
 
-//   handleInputChange = event => {
-//     const { name, value } = event.target;
-//     this.setState({
-//       [name]: value
-//     });
-//   };
+
 loadRes = URL => {
   API.getArticles(URL).then(res => {
     console.log(res.data.response.docs);
     this.setState({articles: res.data.response.docs})}).catch((err => console.log(err)));
+}
+
+saveArticle = (headline, url, pub_date) => {
+  // event.preventDefault();
+  if(pub_date !== ""){
+    API.save({headline: headline, url: url, pub_date: pub_date}).then(res => this.loadSaved())
+   .catch(err => console.log(err));
+  }
+  else {
+    API.save({headline: headline, url: url}).then(res=> this.loadSaved()).catch(err => console.log(err));
+  }
+
 }
 handleInputChange = event => {
   const { name, value } = event.target;
@@ -52,6 +53,7 @@ handleInputChange = event => {
     [name]: value
   });
 };
+
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -144,7 +146,9 @@ handleInputChange = event => {
                         {article.headline.main}
                       </strong>
                     </a>
-                    {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
+                    <FormBtn onClick={e => {
+                      e.preventDefault();
+                      return article.pub_date ? (this.saveArticle(article.headline.main, article.web_url, article.pub_date)) : (this.saveArticle(article.headline.main, article.web_url, ""))}}>Save</FormBtn>
                   </ListItem>
                 ))}
               </List>
