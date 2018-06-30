@@ -1,6 +1,7 @@
+// const express = require("express");
 const router = require("express").Router();
 const articleController = require("../controllers/articleController");
-const path = require("path");
+
 
 
 // Matches with "/api/books"
@@ -9,7 +10,9 @@ router.route("/api/articles")
   .post(articleController.create)
   .delete(articleController.remove);
 
-
+router.route("/*").get(function(req, res){
+  express.static('index');
+})
 
 
 module.exports = router;
