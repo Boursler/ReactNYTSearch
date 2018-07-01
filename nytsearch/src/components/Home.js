@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Jumbotron from "./Jumbotron";
 import API from "../utils/Api";
-import { Link } from "react-router-dom";
+
 import { Col, Row, Container } from "./Grid";
 import { List, ListItem } from "./List";
 import { Input, FormBtn } from "./Form";
@@ -22,6 +22,12 @@ class Home extends Component {
   componentDidMount() {
     this.loadSaved();
   }
+  deleteArticle = id => {
+    API.delete(id)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+      
+  };
 
 loadRes = URL => {
   API.getArticles(URL).then(res => {
@@ -31,6 +37,7 @@ loadRes = URL => {
 
 saveArticle = (headline, url, pub_date) => {
   // event.preventDefault();
+ 
   if(pub_date !== ""){
     API.save({headline: headline, url: url, pub_date: pub_date}).then(res => this.loadSaved())
    .catch(err => console.log(err));
@@ -171,6 +178,7 @@ handleInputChange = event => {
           title={savedArticle.title}
           url={savedArticle.url}
           date={""}
+          deleteArticle = {this.deleteArticle}
         />)}
       
       </ListItem>
