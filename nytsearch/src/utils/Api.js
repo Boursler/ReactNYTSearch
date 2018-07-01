@@ -8,7 +8,10 @@ export default{
 		return axios.post("/api/articles", articleData)
 	}, 
 	delete: function(id){
-		return axios.delete("/api/articles", id);
+		return axios.delete("/api/articles" + id);
+	}, 
+	getSaved: function(){
+		return axios.get("/api/articles");
 	}
 
 
