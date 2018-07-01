@@ -1,13 +1,8 @@
 import React from "react";
 import DeleteBtn from "./DeleteBtn";
-import Col from "./Grid/Col";
-import API from "../utils/Api";
- deleteArticle = id => {
-	API.delete(id)
-		.then(res => console.log(res))
-		.catch(err => console.log(err));
-	  
-};
+import {Col} from "./Grid";
+// import API from "../utils/Api";
+ 
 const Saved = props => (
 	<Col>
 	<p>{props.date}</p>
