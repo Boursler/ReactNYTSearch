@@ -48,7 +48,8 @@ saveArticle = (headline, url, pub_date) => {
 
 }
 loadSaved(){
-  API.getSaved().then(response => this.setState({savedArticles: response})).catch((err => console.log(err)));
+  API.getSaved().then(response => {this.setState({savedArticles: response.data})
+console.log(JSON.stringify(this.state.savedArticles) + "saved ARticles")}).catch((err => console.log(err)));
 
 }
 handleInputChange = event => {
@@ -170,9 +171,10 @@ handleInputChange = event => {
       <ListItem key = {savedArticle._id} >
       {(savedArticle.pub_date) ? (<Saved 
         id= {savedArticle._id}
-        title={savedArticle.title}
+        title={savedArticle.headline}
         url={savedArticle.url}
         date={savedArticle.pub_date}
+        deleteArticle={this.deleteArticle}
 
       />) : (<Saved id={savedArticle._id}
           title={savedArticle.title}
